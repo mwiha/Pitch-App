@@ -12,6 +12,12 @@ class Loginforms(Flaskform):
     username = stringField('username', validatiors=[InputRequired(), Length(min=4, max=15)])
     password = passwprdField('password', validatiors=[InputRequired(), Length(min=4, max=15)])
     remember =Booleanfield('remember me')
+    
+    
+ class Registerform(Flaskform):
+     email = stringField('email', validators=[InputRequired(), Email(message ='Invalid email'), Length(max-50)])  
+     username = stringField('username', validatiors=[InputRequired(), Length(min=4, max=15)])
+     password = passwprdField('password', validatiors=[InputRequired(), Length(min=4, max=15)])  
 
 
 @app.route('/')
@@ -27,7 +33,8 @@ def login():
 
 @app.route('/signup')
 def login():
-    return render_template(signup.html)
+    form = Registerform()
+    return render_template(signup.html, form=form)
 
 
 @app.route('/dashboard')
