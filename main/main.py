@@ -1,4 +1,4 @@
-from flask import Flask,render_template,redirect,url for
+from flask import Flask,render_template,redirect
 from flask_bootsrap import Bootstrap
 from fask_wtf import Flaskform 
 from wtforms import stringField,Booleanfield
@@ -22,9 +22,9 @@ class user(usermixin,db,model):
     email =db.column(db.string(50),unique=True)
     password =db.column(db.string(80))
     
-    @login_manager.user_loader
-    def load_user(user_id):
-        return user.query.get(int(user_id))
+@login_manager.user_loader
+def load_user(user_id):
+    return user.query.get(int(user_id))
 
 class Loginforms(Flaskform):
     username = stringField('username', validatiors=[InputRequired(), Length(min=4, max=15)])
@@ -32,10 +32,10 @@ class Loginforms(Flaskform):
     remember =Booleanfield('remember me')
     
     
- class Registerform(Flaskform):
-     email = stringField('email', validators=[InputRequired(), Email(message ='Invalid email'), Length(max-50)])  
-     username = stringField('username', validatiors=[InputRequired(), Length(min=4, max=15)])
-     password = passwprdField('password', validatiors=[InputRequired(), Length(min=4, max=15)])  
+class Registerform(Flaskform):
+    email = stringField('email', validators=[InputRequired(), Email(message ='Invalid email'), Length(max-50)])  
+    username = stringField('username', validatiors=[InputRequired(), Length(min=4, max=15)])
+    password = passwprdField('password', validatiors=[InputRequired(), Length(min=4, max=15)])  
 
 
 @app.route('/')
@@ -49,8 +49,9 @@ def login():
     if form.validate_on_submit():
         user =user.query.filter_by(username=form.username.data).first()
         if user:
-            if user.password == form.passwprd.data:
-                return redirect(url_for('dashboard'))
+          if check.password_harsh(user.password,form.password.data)
+            login_user(user,remember=form.remember.data)
+              return redirect(url_for('dashboard'))
             
           return '<h1>Invalid username or password<h1>'  
         # return '<h1> "form.username.date +'' + form.password.data + '<h1>"
@@ -58,7 +59,7 @@ def login():
 
 
 @app.route('/signup', methods=['GET','POST'])
-def login():
+def signup():
     form = Registerform()
     
     if form.validate_on_submit():
@@ -74,7 +75,15 @@ def login():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template(dashboard.html)
+    return render_template(dashboard.html,name=current_user.userename)
 
 
-#  
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
+    
+    
+if __name__"" '__main__':
+    app.run(debug=True)
