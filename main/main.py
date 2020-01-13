@@ -43,7 +43,7 @@ def login():
             if user.password == form.passwprd.data:
                 return redirect(url_for('dashboard'))
             
-            
+          return 'Invalid username or password<h1>'  
         # return '<h1> "form.username.date +'' + form.password.data + '<h1>"
     return render_template(login.html, form=form)
 
