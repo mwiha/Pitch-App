@@ -49,12 +49,13 @@ def login():
     if form.validate_on_submit():
         user =user.query.filter_by(username=form.username.data).first()
         if user:
-          if check.password_harsh(user.password,form.password.data)
-            login_user(user,remember=form.remember.data)
-              return redirect(url_for('dashboard'))
+            if check_password_harsh(user.password,form.password.data):
+            # if user.password == form.password.data:
+            #    login_user(user,remember=form.remember.data)
+            return redirect(url_for('dashboard'))
             
-          return '<h1>Invalid username or password<h1>'  
-        # return '<h1> "form.username.date +'' + form.password.data + '<h1>"
+            return '<h1>Invalid username or password<h1>'  
+            # return '<h1> "form.username.date +'' + form.password.data + '<h1>"
     return render_template(login.html, form=form)
 
 
@@ -63,7 +64,8 @@ def signup():
     form = Registerform()
     
     if form.validate_on_submit():
-        new_user = user( username =form.username.data, email=form.email.data,password=form.password.data)
+        harsh_password = generate_password_harsh(form.password.data, method ='sha256')
+        new_user = user( username =form.username.data, email=form.email.data,password=hashed_password)
         db.session.add(new_user)
         db.session.commit()
         
