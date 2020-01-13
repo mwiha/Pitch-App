@@ -4,18 +4,27 @@ from fask_wtf import Flaskform
 from wtforms import stringField,Booleanfield
 from wtforms.validatiors import InputRequired,Email,Length
 from flask_sqlalchemy import SQLALchemy
+from flask_login import Loginmanager,usermixin,login_user,login_required,logout_user,curret_user
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Thisissuppossedtobesecret!'
 app.config['SQLALCHEMY_DATABASE_URL'] = 'sqlite:////mnt/c/users/alice/Documents/login-example/ database.db'
 Bootstrap(app)
 db =SQLALchemy (app)
+login_manager = loginmanager()
+login_manager.init_app(app)
+login_manager.login_view ='login'
 
-class user(db,model):
+class user(usermixin,db,model):
     id =db.column(db.Integer,primary_key=True)
     username =db.column(db.string(15),unique=True)
     email =db.column(db.string(50),unique=True)
     password =db.column(db.string(80))
+    
+    @login_manager.user_loader
+    def load_user(user_id):
+        return user.query.get(int(user_id))
 
 class Loginforms(Flaskform):
     username = stringField('username', validatiors=[InputRequired(), Length(min=4, max=15)])
@@ -43,7 +52,7 @@ def login():
             if user.password == form.passwprd.data:
                 return redirect(url_for('dashboard'))
             
-          return 'Invalid username or password<h1>'  
+          return '<h1>Invalid username or password<h1>'  
         # return '<h1> "form.username.date +'' + form.password.data + '<h1>"
     return render_template(login.html, form=form)
 
@@ -63,7 +72,8 @@ def login():
 
 
 @app.route('/dashboard')
-def login():
+@login_required
+def dashboard():
     return render_template(dashboard.html)
 
 
