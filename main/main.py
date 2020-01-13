@@ -3,10 +3,15 @@ from flask_bootsrap import Bootstrap
 from fask_wtf import Flaskform 
 from wtforms import stringField,Booleanfield
 from wtforms.validatiors import InputRequired,Email,Length
+from flask_sqlalchemy import SQLALchemy
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'Thisissuppossedtobesecret!'
+app.config['SQLALCHEMY_DATABASE_URL'] = 'sqlite:////mnt/c/users/alice/Documents/login-example/ database.db'
 Bootstrap(app)
+db =SQLALchemy (app)
+
+
 
 class Loginforms(Flaskform):
     username = stringField('username', validatiors=[InputRequired(), Length(min=4, max=15)])
@@ -36,6 +41,9 @@ def login():
 @app.route('/signup', methods=['GET','POST'])
 def login():
     form = Registerform()
+    
+    if form.validate_on_submit():
+        return '<h1> "form.username.date +'' + form.email.data+ '' + form.password.data + '<h1>"
     return render_template(signup.html, form=form)
 
 
