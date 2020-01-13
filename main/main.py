@@ -5,6 +5,7 @@ from wtforms import stringField,Booleanfield
 from wtforms.validatiors import InputRequired,Email,Length
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'Thisissuppossedtobesecret!'
 Bootstrap(app)
 
 class Loginforms(Flaskform):
