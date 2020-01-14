@@ -1,27 +1,21 @@
-# from . import db
+from . import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
 from . import login_manager
 
 
-class Role(db.Model):
-    __tablename__ = 'roles'
-
-    id = db.Column(db.Integer,primary_key = True)
-    name = db.Column(db.String(255))
-    users = db.relationship('User',backref = 'role',lazy="dynamic")
-
-
-    def __repr__(self):
-        return f'User {self.name}'
+   
     
-    
-class User(db.Model):
+class User(db.Model,UserMixin):
     __tablename__ = 'users'
-    id = db.Column(db.Integer,primary_key = True)
-    username = db.Column(db.String(255))
-    
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(225), unique=True, nullable=False)
+    email = db.Column(db.String(255), unique= True, nullable= False, index = True)
+    image = db.Column(db.String(225), nullable=False, default='default.jpg')
+    password = db.Column(db.String(60), nullable=False)
+    posts = db.relationship('Post', backref='author', lazy=True)
+    comments = db.relationship('Comment', backref='author', lazy=True)
     pass_secure = db.Column(db.String(255))
     
     
@@ -39,19 +33,6 @@ class User(db.Model):
 
     def __repr__(self):
         return f'User {self.username}'
-    
-    
-    
-class User(UserMixin,db.Model):
-    __tablename__ = 'users'
-
-    id = db.Column(db.Integer,primary_key = True)
-    username = db.Column(db.String(255),index = True)
-    email = db.Column(db.String(255),unique = True,index = True)
-    role_id = db.Column(db.Integer,db.ForeignKey('roles.id'))
-    bio = db.Column(db.String(255))
-    profile_pic_path = db.Column(db.String())
-    password_secure = db.Column(db.String(255))
     
 @login_manager.user_loader
 def load_user(user_id):
