@@ -4,9 +4,9 @@ from wtforms.validators import Required, Email, EqualTo
 # from ..models import User
 from wtforms import ValidationError
 
-class UpdateProfile(FlaskForm):
-    bio = TextAreaField('Tell us about you.',validators = [Required()])
-    submit = SubmitField('Submit')
+# class UpdateProfile(FlaskForm):
+#     bio = TextAreaField('Tell us about you.',validators = [Required()])
+#     submit = SubmitField('Submit')
     
 class LoginForm(FlaskForm):
     email = StringField('Your Email Address',validators=[Required(),Email()])
