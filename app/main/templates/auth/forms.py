@@ -8,11 +8,11 @@ class UpdateProfile(FlaskForm):
     bio = TextAreaField('Tell us about you.',validators = [Required()])
     submit = SubmitField('Submit')
     
-class PitchForm(FlaskForm):
-    title = StringField('Title',validators=[Required()])
-    category = SelectField('Category',choices=[('Interview','Interview'),('Business','Business'),('Product','Product')],validators=[Required()])
-    post = TextAreaField('Present your pitch',validators=[Required()])
-    submit = SubmitField('Pitch it')
+class LoginForm(FlaskForm):
+    email = StringField('Your Email Address',validators=[Required(),Email()])
+    password = PasswordField('Password',validators =[Required()])
+    remember = BooleanField('Remember me')
+    submit = SubmitField('Sign In')
     
 class CommentsForm(FlaskForm):
     comment = TextAreaField('Leave a comment',validators=[Required()])
