@@ -1,6 +1,8 @@
 from . import db
 from datetime import datetime
 from werkzeug.security import generate_password_hash,check_password_hash
+from flask_login import UserMixin
+from . import login_manager
 
 
 class Role(db.Model):
@@ -50,5 +52,9 @@ class User(UserMixin,db.Model):
     bio = db.Column(db.String(255))
     profile_pic_path = db.Column(db.String())
     password_secure = db.Column(db.String(255))
+    
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
     
     
