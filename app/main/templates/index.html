@@ -1,37 +1,22 @@
-{% extends "base.html" %}
-
-{% block title%}
-Dashboard
+{% extends 'base.html'%}
+{% from 'pitch_display_macro.html' import display_pitches%}
+{% block content%}
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('static',filename='css/particle.css')}}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
 {% endblock %}
-
-
-<link rel="stylesheet" href="{{url_for('.static', filename='dashboard.css')}}">
-
-{% block content %}
-
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="nav nav-sidebar">
-                <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-                <li><a href="#">Reports</a></li>
-                <li><a href="#">Analytics</a></li>
-                <li><a href="#">Export</a></li>
-            </ul>
-            <ul class="nav nav-sidebar">
-                <li><a href="">Nav item again</a></li>
-                <li><a href="">One more nav</a></li>
-                <li><a href="">Another nav item</a></li>
-                <li><a href="">Nav item again</a></li>
-                <li><a href="">More navigation</a></li>
-            </ul>
-
-            <ul class="nav nav-sidebar">
-                    <li><a href="">Nav item again</a></li>
-                    <li><a href="">One more nav</a></li>
-                    <li><a href="">Another nav item</a></li>
-                </ul>
+<div class="bgimage">
+    <div class="p-3 p-md-5 m-md-3 text-center bg-transparent">
+        <div class="col-md-12 p-lg-5 mx-auto my-5">
+            <h1 class="display-4 font-weight-normal text-white" style="font-size:40px">One Minute Pitch:</h1>
+            <p class="lead font-weight-normal text-white" style="font-size:40px">Make it happen in a minute.</p>
+            <p style="font-size:40px;color:white">You only have 60 seconds to impress someone. 1 minute can make or
+                break you. How do we make sure that you use your 1 minute to actually say something meaningful?</p>
+            <div id="buttons d-block mx-auto">
+                <a class="btn btn-outline-secondary text-white" href="/new_post" style="font-size:40px">New Pitch</a>
+                <a class="btn btn-outline-secondary text-white" href="/posts" style="font-size:40px">View Pitches</a>
+            </div>
         </div>
     </div>
 </div>

@@ -6,13 +6,7 @@ class Config:
     SQLALCHEMY_DATABASE_URI ='postgresql+psycopg2://Alice:   @localhost/pitchApp'
     
     
-    #  email configurations
-    MAIL_SERVER = 'smtp.gmail.com'
-    MAIL_PORT = 465
-    MAIL_USE_TLS = False
-    MAIL_USE_SSL = True
-    MAIL_USERNAME = "alicemwihaki99@gmail.com"
-    MAIL_PASSWORD = "0798967681"
+
     
 class ProdConfig(Config):
     '''
