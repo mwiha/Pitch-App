@@ -48,6 +48,9 @@ click on upvote or downvote
 
 $ python3.6 manage.py test
 
+## Live link to website
+https://alicepitch.herokuapp.com/
+
 ## contacts 
 
 - for enquries or comments
